@@ -381,6 +381,23 @@ void restart_dnsforwarder(void){
 }
 #endif
 
+#if defined(APP_ZEROTIER)
+void stop_zerotier(void){
+	eval("/usr/bin/zerotier.sh","stop");
+}
+
+void start_zerotier(void){
+	int zerotier_enable = nvram_get_int("zerotier_enable");
+	if ( zerotier_enable == 1)
+		eval("/usr/bin/zerotier.sh","start");
+}
+
+void restart_zerotier(void){
+	stop_zerotier();
+	start_zerotier();
+}
+#endif
+
 #if defined(APP_NAPT66)
 void start_napt66(void){
 	int napt66_mode = nvram_get_int("napt66_enable");
@@ -604,6 +621,9 @@ start_services_once(int is_ap_mode)
 #endif
 #if defined(APP_DNSFORWARDER)
 	start_dnsforwarder();
+#endif
+#if defined(APP_ZEROTIER)
+	stop_zerotier();
 #endif
 #if defined(APP_SHADOWSOCKS)
 	start_ss();

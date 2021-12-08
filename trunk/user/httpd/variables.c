@@ -93,6 +93,13 @@
 			{0,0,0,0}
 		};
 
+	struct variable variables_ZeroConf_ZeroList[] = {
+			{"zero_enable_x", "24", NULL, FALSE},
+			{"zero_ip_x", "24", NULL, FALSE},
+			{"zero_route_x", "24", NULL, FALSE},
+			{0,0,0,0}
+		};
+
 #if BOARD_HAS_5G_RADIO
 	struct variable variables_DeviceSecurity11a_ACLList[] = {
 			{"wl_maclist_x", "32", NULL, FALSE},
@@ -835,6 +842,17 @@
 	};
 #endif
 
+#if defined(APP_ZEROTIER)
+	struct variable variables_ZeroConf[] = {
+			{"zerotier_enable", "", NULL, EVM_RESTART_ZEROTIER},
+			{"zerotier_id", "", NULL, EVM_RESTART_ZEROTIER},
+			{"zerotier_nat", "", NULL, EVM_RESTART_ZEROTIER},
+			{"zero_staticnum_x", "", NULL, EVM_RESTART_ZEROTIER},
+			{"ZeroList", "Group", ARGV((char*)variables_ZeroConf_ZeroList, "8", "55", "zero_staticnum_x"), EVM_RESTART_ZEROTIER},
+			{0,0,0,0}
+	};
+#endif
+
 #if defined(APP_SHADOWSOCKS)
 	struct variable variables_ShadowsocksConf[] = {
 			{"ss_enable","",NULL, EVM_RESTART_SHADOWSOCKS},
@@ -976,6 +994,9 @@
 #if defined(APP_DNSFORWARDER)
 		{"dnsforwarderConf",		variables_dnsforwarderConf},
 #endif
+#if defined(APP_ZEROTIER)
+		{"ZeroConf",		variables_ZeroConf},
+#endif
 #if defined(APP_SCUT)
 		{"ScutclientConf",		variables_ScutclientConf},
 #endif
@@ -1063,6 +1084,9 @@
 #endif
 #if defined(APP_DNSFORWARDER)
 		{EVM_RESTART_DNSFORWARDER,	EVT_RESTART_DNSFORWARDER,	RCN_RESTART_DNSFORWARDER, 0},
+#endif
+#if defined(APP_ZEROTIER)
+		{EVM_RESTART_ZEROTIER,		EVT_RESTART_ZEROTIER,		RCN_RESTART_ZEROTIER,	0},
 #endif
 #if defined(APP_SHADOWSOCKS)
 		{EVM_RESTART_SHADOWSOCKS,	EVT_RESTART_SHADOWSOCKS,	RCN_RESTART_SHADOWSOCKS,  0},
